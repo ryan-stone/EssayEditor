@@ -9,7 +9,7 @@ public class Editor_Test {
 		editor.replaceWord(0, "Goodbye");
 		editor.printText();
 		editor.saveFile();
-		editor.insertWord(3, "Wow");
+		editor.insertWord(1, "Goodbye");
 		editor.saveFile();
 		editor.printOccurrences();
 		editor.refresh();

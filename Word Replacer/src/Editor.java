@@ -41,6 +41,7 @@ public class Editor {
 		}
 	}
 	
+	// Inserts a word into the ArrayList
 	public void insertWord(int pos, String word) {
 		if (pos <= text.size() && pos >= 0) {
 			text.add(pos, word);
@@ -97,10 +98,10 @@ public class Editor {
 	}
 	
 	// Counts occurrences of each unique word, stores in HashMap
+	// HashMap allows for O(n) run time
 	private void parseWordOccurrences() {
 		wordMap.clear();
-		wordMap.put(text.get(0), 1); // wordMap must have a word in order for the for-loop to work
-		for (int i = 1; i < text.size(); i++) {
+		for (int i = 0; i < text.size(); i++) {
 			String word = text.get(i);
 			if (word != "." && word != "?" && word != "!") { // can maybe remove this line?
 				Integer count = wordMap.get(word);
