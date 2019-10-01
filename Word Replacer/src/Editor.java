@@ -5,10 +5,11 @@ public class Editor {
 	FStream file;
 	ArrayList<String> text;
 	int numWords, numSentences;
-	HashMap<Integer, String> wordMap;
+	HashMap<String, Integer> wordMap;
 	
 	public Editor(){
 		text = new ArrayList<String>();
+		wordMap = new HashMap<String, Integer>();
 	}
 	
 	public void openFile(String path) {
@@ -17,7 +18,7 @@ public class Editor {
 		for (int i = 0; i < tempText.size(); i++) {
 			text.add(tempText.get(i));
 		}
-		parseText();
+		refresh();
 	}
 	
 	public void saveFile() {
@@ -83,7 +84,7 @@ public class Editor {
 	}
 	
 	// Updates number of sentences and words in text
-	public void parseText() {
+	private void parseText() {
 		numSentences = 0;
 		numWords = 0;
 		for (int i = 0; i < text.size(); i++) {
@@ -95,11 +96,41 @@ public class Editor {
 		}
 	}
 	
+	// Counts occurrences of each unique word, stores in HashMap
+	private void parseWordOccurrences() {
+		wordMap.clear();
+		wordMap.put(text.get(0), 1); // wordMap must have a word in order for the for-loop to work
+		for (int i = 1; i < text.size(); i++) {
+			String word = text.get(i);
+			if (word != "." && word != "?" && word != "!") { // can maybe remove this line?
+				Integer count = wordMap.get(word);
+				if (count == null) {
+					count = 0;
+				}
+				wordMap.put(word,  count + 1);
+			}
+		}
+	}
+	
+	// Refreshes the word & sentence counts
+	public void refresh() {
+		parseText();
+		parseWordOccurrences();
+	}
+	
 	public int getNumWords() {
 		return numWords;
 	}
 	
 	public int getNumSentences() {
 		return numSentences;
+	}
+	
+	public void printOccurrences() {
+		for (int i = 0; i < text.size(); i++) {
+			String word = text.get(i);
+			System.out.print(word + " - " + wordMap.get(word) + " | ");
+		}
+		System.out.println();
 	}
 }
