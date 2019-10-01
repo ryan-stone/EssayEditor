@@ -127,6 +127,8 @@ public class Editor {
 		return numSentences;
 	}
 	
+	// Issue: currently prints each time a word appears
+	// even if the word is a duplicate
 	public void printOccurrences() {
 		for (int i = 0; i < text.size(); i++) {
 			String word = text.get(i);
