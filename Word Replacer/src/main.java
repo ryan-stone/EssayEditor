@@ -3,6 +3,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.*;
 
@@ -16,8 +17,15 @@ import java.util.ArrayList;
 public class main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
+		/* The optional EventQueue places the application on the
+		 * swing event queue to ensure that all ui updates
+		 * are concurrency-safe. */
+		
+		//EventQueue.invokeLater(() -> {});
+		
+		EssayHelper essayHelper = new EssayHelper();
+		essayHelper.setVisible(true);
 	}
 
 }

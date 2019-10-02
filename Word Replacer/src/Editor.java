@@ -136,4 +136,15 @@ public class Editor {
 		}
 		System.out.println();
 	}
+	
+	public String getTextString() {
+		String textString = "";
+		for (int i = 0; i < text.size(); i++) {
+			textString += text.get(i);
+			if ((i < text.size()-1) && !isPunctuation(text.get(i+1))) {
+				textString += " ";
+			}
+		}
+		return textString;
+	}
 }

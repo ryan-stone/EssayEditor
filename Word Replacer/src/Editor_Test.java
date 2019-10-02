@@ -14,6 +14,7 @@ public class Editor_Test {
 		editor.printOccurrences();
 		editor.refresh();
 		editor.printOccurrences();
+		System.out.println(editor.getTextString());
 	}
 
 }
