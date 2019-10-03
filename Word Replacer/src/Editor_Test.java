@@ -12,7 +12,12 @@ public class Editor_Test {
 		editor.insertWord(1, "Goodbye");
 		editor.saveFile();
 		editor.printOccurrences();
+		
 		editor.refresh();
+		editor.printOccurrences();
+		
+		editor.newText("Replacing new text with this new string");
+		editor.saveFile();
 		editor.printOccurrences();
 		System.out.println(editor.getTextString());
 	}

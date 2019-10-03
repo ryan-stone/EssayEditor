@@ -90,7 +90,7 @@ public class Editor {
 		numWords = 0;
 		for (int i = 0; i < text.size(); i++) {
 			String word = text.get(i);
-			if (word == "." || word == "!" || word == "?") {
+			if (word.equals(".") || word.equals("!") || word.equals("?")) {
 				numSentences++;
 			}
 			else numWords++;
@@ -146,5 +146,45 @@ public class Editor {
 			}
 		}
 		return textString;
+	}
+	
+	// If text is completely edited, refresh the array
+	public void newText(String str) {
+		text.clear();
+		String newStr = "";
+		
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			
+			if (c == ' ') {
+				System.out.println("Space at " + i); //////
+				if (newStr.length() != 0) {
+					text.add(newStr);
+					newStr = "";					
+				}
+			}
+			else if (c == '.' || c == '?' || c == '!') {
+				System.out.println("Punctuation at " + i);
+				text.add(newStr);
+				text.add(Character.toString(c));
+				newStr = "";
+			}
+			else {
+				newStr += c;
+				//Catch the last word in the string
+				if (i == str.length() -1 ) {
+					text.add(newStr);
+				}
+			}
+		}		
+		refresh();
+	}
+	
+	// We will return suggestions from here, this is very incomplete
+	public String getSuggestion() {
+		String suggestion = "This is an example of a really long suggestion that is probably "
+				+ " telling them that their sentences are too long.";
+		
+		return suggestion;
 	}
 }
