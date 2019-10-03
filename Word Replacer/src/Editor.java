@@ -5,19 +5,21 @@ public class Editor {
 	FStream file;
 	ArrayList<String> text;
 	int numWords, numSentences;
-	HashMap<Integer, String> wordMap;
+	HashMap<String, Integer> wordMap;
 	
 	public Editor(){
 		text = new ArrayList<String>();
+		wordMap = new HashMap<String, Integer>();
 	}
 	
 	public void openFile(String path) {
 		file = new FStream(path);
 		ArrayList<String> tempText = file.getText();
+		text.clear();
 		for (int i = 0; i < tempText.size(); i++) {
 			text.add(tempText.get(i));
 		}
-		parseText();
+		refresh();
 	}
 	
 	public void saveFile() {
@@ -40,6 +42,7 @@ public class Editor {
 		}
 	}
 	
+	// Inserts a word into the ArrayList
 	public void insertWord(int pos, String word) {
 		if (pos <= text.size() && pos >= 0) {
 			text.add(pos, word);
@@ -83,16 +86,38 @@ public class Editor {
 	}
 	
 	// Updates number of sentences and words in text
-	public void parseText() {
+	private void parseText() {
 		numSentences = 0;
 		numWords = 0;
 		for (int i = 0; i < text.size(); i++) {
 			String word = text.get(i);
-			if (word == "." || word == "!" || word == "?") {
+			if (word.equals(".") || word.equals("!") || word.equals("?")) {
 				numSentences++;
 			}
 			else numWords++;
 		}
+	}
+	
+	// Counts occurrences of each unique word, stores in HashMap
+	// HashMap allows for O(n) run time
+	private void parseWordOccurrences() {
+		wordMap.clear();
+		for (int i = 0; i < text.size(); i++) {
+			String word = text.get(i).toLowerCase();
+			if (word != "." && word != "?" && word != "!") { // can maybe remove this line?
+				Integer count = wordMap.get(word);
+				if (count == null) {
+					count = 0;
+				}
+				wordMap.put(word,  count + 1);
+			}
+		}
+	}
+	
+	// Refreshes the word & sentence counts
+	public void refresh() {
+		parseText();
+		parseWordOccurrences();
 	}
 	
 	public int getNumWords() {
@@ -101,5 +126,87 @@ public class Editor {
 	
 	public int getNumSentences() {
 		return numSentences;
+	}
+	
+	// Issue: currently prints each time a word appears
+	// even if the word is a duplicate
+	public void printOccurrences() {
+		for (int i = 0; i < text.size(); i++) {
+			String word = text.get(i);
+			System.out.print(word + " - " + wordMap.get(word) + " | ");
+		}
+		System.out.println();
+	}
+	
+	public String getTextString() {
+		String textString = "";
+		for (int i = 0; i < text.size(); i++) {
+			textString += text.get(i);
+			if ((i < text.size()-1) && !isPunctuation(text.get(i+1))) {
+				textString += " ";
+			}
+		}
+		return textString;
+	}
+	
+	// If text is completely edited, refresh the array
+	public void newText(String str) {
+		text.clear();
+		String newStr = "";
+		
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			
+			if (c == ' ') {
+				System.out.println("Space at " + i); //////
+				if (newStr.length() != 0) {
+					text.add(newStr);
+					newStr = "";					
+				}
+			}
+			else if (c == '.' || c == '?' || c == '!') {
+				System.out.println("Punctuation at " + i);
+				text.add(newStr);
+				text.add(Character.toString(c));
+				newStr = "";
+			}
+			else {
+				newStr += c;
+				//Catch the last word in the string
+				if (i == str.length() -1 ) {
+					text.add(newStr);
+				}
+			}
+		}		
+		refresh();
+	}
+	
+	// We will return suggestions from here, this is very incomplete
+	public String getSuggestion() {
+		String suggestion = "There are no more suggestions.";
+		
+		ArrayList<String> mostUsedWords = getMostUsedWords();
+		if (mostUsedWords.size() > 0) {
+			String word = mostUsedWords.get(0);
+			suggestion = "The word \"" + word + "\" is used " + wordMap.get(word) + " times.";
+			suggestion += "\nConsider replacing this word with something else.";
+		}
+		
+		return suggestion;
+	}
+	
+	private ArrayList<String> getMostUsedWords(){
+		ArrayList<String> wordList = new ArrayList<String>();
+		int rarityThreshold = (int) Math.floor(0.05d * text.size());	// 5% threshold for common words
+		
+		for (int i = 0; i < text.size(); i++) {
+			String word = text.get(i);
+			if (wordMap.get(word) != null && wordMap.get(word) > rarityThreshold) {
+				wordList.add(word);
+				System.out.println(word + " " + wordMap.get(word) + " occurrences");	//////////////TESTING///////////////////
+			}
+		}
+		
+		return wordList;
 	}
 }
