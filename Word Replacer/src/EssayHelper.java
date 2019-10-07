@@ -20,15 +20,13 @@ public class EssayHelper extends JFrame {
 	JButton suggestionBtn;
 	JButton saveBtn;
 	JButton openBtn;
-	String url;
+	String path;
 	
 	final int WINDOW_WIDTH = 600;
 	final int WINDOW_HEIGHT = 600;
 	
 	public EssayHelper(){
 		editor = new Editor();
-		// Next line testing purposes only
-		editor.openFile("C:\\Users\\rston\\git\\EssayEditor\\Word Replacer\\src\\hello.txt");
 		
 		initUI();
 	}
@@ -59,9 +57,9 @@ public class EssayHelper extends JFrame {
 		openBtn.setBounds(WINDOW_WIDTH-570, WINDOW_HEIGHT-580, 70, 30);
 		openBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				url = JOptionPane.showInputDialog("URL:");
-				url = convertURL(url);
-				editor.openFile(url);
+				path = JOptionPane.showInputDialog("URL:");
+				path = convertPath(path);
+				editor.openFile(path);
 				textArea.setText(editor.getTextString());
 				refresh();
 			}
@@ -166,11 +164,11 @@ public class EssayHelper extends JFrame {
 		numSentencesLbl.setText("Sentences: " + Integer.toString(editor.getNumSentences()));
 	}
 	
-	private String convertURL(String u) {
+	private String convertPath(String p) {
 		String temp = "";
-		for (int i = 0; i < u.length(); i++) {
-			temp += u.charAt(i);
-			if ((u.charAt(i) == '\\') && (i < u.length() - 1) && (u.charAt(i+1) != '\\') && (u.charAt(i-1) != '\\')) {
+		for (int i = 0; i < p.length(); i++) {
+			temp += p.charAt(i);
+			if ((p.charAt(i) == '\\') && (i < p.length() - 1) && (p.charAt(i+1) != '\\') && (p.charAt(i-1) != '\\')) {
 				temp += '\\';
 			}
 		}
