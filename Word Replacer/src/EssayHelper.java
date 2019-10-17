@@ -53,7 +53,7 @@ public class EssayHelper extends JFrame {
 		panel.add(textArea);
 		
 		// Add Open file button
-		openBtn = new JButton("Open");
+		openBtn = new JButton("Open");		// Practice: C:\Users\rston\git\EssayEditor\Word Replacer\src\hello.txt
 		openBtn.setBounds(WINDOW_WIDTH-570, WINDOW_HEIGHT-580, 70, 30);
 		openBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
