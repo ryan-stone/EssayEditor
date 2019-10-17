@@ -24,8 +24,13 @@ public class main {
 		
 		//EventQueue.invokeLater(() -> {});
 		
-		EssayHelper essayHelper = new EssayHelper();
-		essayHelper.setVisible(true);
+		/*
+		Login login = new Login();
+		
+		if (login.validateLogin()) {
+			EssayHelper essayHelper = new EssayHelper();
+			essayHelper.setVisible(true);
+		}*/
 	}
 
 }
