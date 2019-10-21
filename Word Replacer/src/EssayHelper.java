@@ -162,6 +162,7 @@ public class EssayHelper extends JFrame {
 	private void refresh() {
 		numWordsLbl.setText("Words: " + Integer.toString(editor.getNumWords()));
 		numSentencesLbl.setText("Sentences: " + Integer.toString(editor.getNumSentences()));
+		editor.populateSuggestions();
 	}
 	
 	private String convertPath(String p) {

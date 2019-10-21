@@ -10,5 +10,10 @@ with some extra periods.
 
 Next we will look for words that are used way too often. For example,
 if we use the word "next" more than 5 percent of the time then the word
-will be flagged and a suggestion will pop up. Next next next next next.
-Next next next next next next next next next next next next next next.
+will be flagged and a suggestion will pop up. Next next next next next. 
+Next next next next next next next next next next next next next next. 
+icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream
+icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream
+icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream  
+is is  is is is is is is is is is is is is is is is is is is is is is is is is is is is is 
+is is is is is is is is is is is is is is is is is is is is is is 

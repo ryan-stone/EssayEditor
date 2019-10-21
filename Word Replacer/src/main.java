@@ -14,23 +14,20 @@ import javax.swing.JTextArea;
 
 import java.util.ArrayList;
 
+import java.sql.*;
+
 public class main {
 
 	public static void main(String[] args) {
 		
-		/* The optional EventQueue places the application on the
-		 * swing event queue to ensure that all ui updates
-		 * are concurrency-safe. */
 		
-		//EventQueue.invokeLater(() -> {});
+		//Login login = new Login();
+		//login.setVisible(true);
 		
-		/*
-		Login login = new Login();
-		
-		if (login.validateLogin()) {
+		//if (login.validateLogin()) {
 			EssayHelper essayHelper = new EssayHelper();
 			essayHelper.setVisible(true);
-		}*/
+		//}
 	}
 
 }

@@ -1,15 +1,25 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Editor {
 	FStream file;
 	ArrayList<String> text;
 	int numWords, numSentences;
 	HashMap<String, Integer> wordMap;
+	ArrayList<String> commonWords;
+	ArrayList<String> suggestions;
+	int suggestionPosition;
 	
 	public Editor(){
 		text = new ArrayList<String>();
 		wordMap = new HashMap<String, Integer>();
+		commonWords = new ArrayList<String>();
+		suggestions = new ArrayList<String>();
+		suggestionPosition = 0;
+		populateCommonWordFromFile();
 	}
 	
 	public void openFile(String path) {
@@ -21,6 +31,38 @@ public class Editor {
 		}
 		refresh();
 	}
+	
+	public void populateCommonWordFromFile() {
+		String wordPath = "src\\common_words.txt";
+		File commonWordsFile = new File(wordPath);
+		Scanner sc;
+		// Open a scanner
+		try {
+			sc = new Scanner(commonWordsFile);
+			while (sc.hasNext()) {
+				commonWords.add(sc.next());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < commonWords.size(); i++) {
+			System.out.println(commonWords.get(i));
+		}
+		
+	}
+	
+	public boolean checkCommonWord(String str) {
+		for (int i = 0; i < commonWords.size(); i++) {
+			if (str.equals(commonWords.get(i))) {
+				System.out.println(str);
+				return true;// common word
+			}
+		}
+		return false; // not a common word
+		
+	}
+	
 	
 	public void saveFile() {
 		file.overwrite(text);
@@ -183,16 +225,48 @@ public class Editor {
 	
 	// We will return suggestions from here, this is very incomplete
 	public String getSuggestion() {
-		String suggestion = "There are no more suggestions.";
-		
-		ArrayList<String> mostUsedWords = getMostUsedWords();
-		if (mostUsedWords.size() > 0) {
-			String word = mostUsedWords.get(0);
-			suggestion = "The word \"" + word + "\" is used " + wordMap.get(word) + " times.";
-			suggestion += "\nConsider replacing this word with something else.";
+		if (suggestions.size() > 0 && suggestionPosition < suggestions.size()) {
+			String str = suggestions.get(suggestionPosition);
+			suggestionPosition = (suggestionPosition + 1) % suggestions.size();
+			return str;
 		}
+		else {
+			return "No more suggestions";
+		}
+	}
+	
+	public void populateSuggestions() {
+		// calls the various populate functions
+		suggestions.clear();
+		populateSuggestionMostUsedWords();
+		populateWordsToAvoid();
 		
-		return suggestion;
+		for (int i = 0; i < suggestions.size(); i++) {
+			System.out.println(i + ": " + suggestions.get(i));
+		}
+	}
+	
+	private void populateWordsToAvoid(){
+		
+	}
+	
+	private void populateSuggestionMostUsedWords() {
+		ArrayList<String> mostUsedWords = getMostUsedWords();
+		String word;
+		
+		String suggestion;
+		
+		for (int i = 0; i < mostUsedWords.size(); i++){
+			word = mostUsedWords.get(i);
+
+			if (!checkCommonWord(word)) {
+				suggestion = "The word \"" + word + "\" is used " + wordMap.get(word) + " times.";
+				suggestion += "\nConsider replacing this word with something else.";
+				suggestions.add(suggestion);
+			}
+			
+		}
+
 	}
 	
 	private ArrayList<String> getMostUsedWords(){
@@ -202,10 +276,15 @@ public class Editor {
 		for (int i = 0; i < text.size(); i++) {
 			String word = text.get(i);
 			if (wordMap.get(word) != null && wordMap.get(word) > rarityThreshold) {
-				wordList.add(word);
-				System.out.println(word + " " + wordMap.get(word) + " occurrences");	//////////////TESTING///////////////////
+				if (wordList.contains(word)) {
+					continue;
+				}
+				else {
+					wordList.add(word);
+				}
 			}
 		}
+
 		
 		return wordList;
 	}
