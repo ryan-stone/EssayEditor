@@ -196,14 +196,12 @@ public class Editor {
 			char c = str.charAt(i);
 			
 			if (c == ' ') {
-				System.out.println("Space at " + i); //////
 				if (newStr.length() != 0) {
 					text.add(newStr);
 					newStr = "";					
 				}
 			}
 			else if (c == '.' || c == '?' || c == '!') {
-				System.out.println("Punctuation at " + i);
 				text.add(newStr);
 				text.add(Character.toString(c));
 				newStr = "";

@@ -20,14 +20,9 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		
-		//Login login = new Login();
-		//login.setVisible(true);
-		
-		//if (login.validateLogin()) {
-			EssayHelper essayHelper = new EssayHelper();
-			essayHelper.setVisible(true);
-		//}
+		EssayHelper essayHelper = new EssayHelper();
+		essayHelper.setVisible(true);
+
 	}
 
 }
