@@ -46,16 +46,12 @@ public class Editor {
 			e.printStackTrace();
 		}
 		
-		for (int i = 0; i < commonWords.size(); i++) {
-			System.out.println(commonWords.get(i));
-		}
 		
 	}
 	
 	public boolean checkCommonWord(String str) {
 		for (int i = 0; i < commonWords.size(); i++) {
 			if (str.equals(commonWords.get(i))) {
-				System.out.println(str);
 				return true;// common word
 			}
 		}
@@ -241,9 +237,6 @@ public class Editor {
 		populateSuggestionMostUsedWords();
 		populateWordsToAvoid();
 		
-		for (int i = 0; i < suggestions.size(); i++) {
-			System.out.println(i + ": " + suggestions.get(i));
-		}
 	}
 	
 	private void populateWordsToAvoid(){

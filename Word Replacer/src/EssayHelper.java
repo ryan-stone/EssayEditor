@@ -173,7 +173,6 @@ public class EssayHelper extends JFrame {
 				temp += '\\';
 			}
 		}
-		System.out.println(temp);
 		return temp;
 	}
 	
