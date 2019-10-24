@@ -1,3 +1,10 @@
+/* This class requires a JDBC plugin. For MySQL, that's connector/j. IntelliJ can install this plugin automatically
+ * if you use Eclipse, you'll have to download it from this URLu
+ *
+ * https://dev.mysql.com/downloads/connector/j/u
+ *
+ * and set it up in your Eclipse project manually.
+ */
 import java.sql.*;
 
 public class JDBC {
@@ -13,17 +20,22 @@ public class JDBC {
         rs = null;
     }
 
-    void queryUser(String userName) {
+    boolean queryUser(String userName) {
+        boolean userFlag = false;
         try {
-            sql = "SELECT username " +
-                   " FROM users " +
-                   "WHERE username == " + userName;
+            sql =  "SELECT username " +
+                    "FROM users " +
+                    "WHERE username = '" + userName + "'";
             conn = DriverManager.getConnection(url,user,password);
+
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next()) {
-                System.out.println(rs.getString("username") + "\t");
+                if(rs.getString("username").equals(userName)) {
+                    System.out.println(rs.getString("username") + "\t");
+                    userFlag = true;
+                }
             }
             //processing here
         } catch(SQLException e){
@@ -35,7 +47,39 @@ public class JDBC {
             } catch(SQLException ex) {
                 System.out.println(ex.getMessage());
             }
-        }
+        } //try-catch-finallyu
+        return userFlag;
+    }
+
+    boolean queryPassword(String userPass) {
+        boolean userFlag = false;
+        try {
+            sql =  "SELECT pass " +
+                    "FROM password " +
+                    "WHERE pass = '" + userPass + "'";
+            conn = DriverManager.getConnection(url,user,password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                if(rs.getString("pass").equals(userPass)) {
+                    System.out.println(rs.getString("pass") + "\t");
+                    userFlag = true;
+                }
+            }
+            //processing here
+        } catch(SQLException e){
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch(SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } //try-catch-finallyu
+        return userFlag;
     }
 
     int insert(int index, String word) {
