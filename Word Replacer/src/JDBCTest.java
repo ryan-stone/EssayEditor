@@ -15,9 +15,13 @@ public class JDBCTest {
             System.out.println("User exists in database");
             System.out.println("Enter password");
             password = read.next();
+
+            outer:
             for (int i = 0; i < NUMBER_OF_ATTENMPTS; i++) {
-                if (test.queryPassword(password))
+                if (test.queryPassword(password)) {
                     System.out.println("Password is correct! Access granted");
+                    break outer;
+                }
                 else {
                     System.out.println("Incorrect password");
                     password = read.next();
