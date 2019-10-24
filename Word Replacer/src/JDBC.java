@@ -1,7 +1,7 @@
 /* This class requires a JDBC plugin. For MySQL, that's connector/j. IntelliJ can install this plugin automatically
- * if you use Eclipse, you'll have to download it from this URLu
+ * if you use Eclipse, you'll have to download it from this URL
  *
- * https://dev.mysql.com/downloads/connector/j/u
+ * https://dev.mysql.com/downloads/connector/j/
  *
  * and set it up in your Eclipse project manually.
  */
