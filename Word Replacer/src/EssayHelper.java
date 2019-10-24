@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 // Good java swing basics tutorial: http://www.lsv.fr/~sankur/java/first.html
 
@@ -10,17 +12,20 @@ import java.awt.event.ActionListener;
 // Combines the editor with the GUI
 public class EssayHelper extends JFrame {
 	Editor editor;
+
 	JFrame frame;
-	JTextArea textArea;
-	JLabel numSentencesLbl;
-	JLabel numWordsLbl;
-	JButton userEditTextBtn;
-	JButton finishUserEditBtn;
-	JTextArea suggestionLbl;
-	JButton suggestionBtn;
-	JButton saveBtn;
-	JButton openBtn;
-	String path;
+
+	JTextArea textArea; JTextArea suggestionLbl;
+
+	JLabel numSentencesLbl; JLabel numWordsLbl;
+
+	JButton userEditTextBtn; JButton finishUserEditBtn; JButton suggestionBtn;
+	JButton saveBtn;         JButton openBtn;
+
+	JFileChooser openFileBrowser;
+
+	//String path; not used after
+	Path filePath;
 	
 	final int WINDOW_WIDTH = 600;
 	final int WINDOW_HEIGHT = 600;
@@ -55,11 +60,11 @@ public class EssayHelper extends JFrame {
 		// Add Open file button
 		openBtn = new JButton("Open");		// Practice: C:\Users\rston\git\EssayEditor\Word Replacer\src\hello.txt
 		openBtn.setBounds(WINDOW_WIDTH-570, WINDOW_HEIGHT-580, 70, 30);
-		openBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				path = JOptionPane.showInputDialog("URL:");
-				path = convertPath(path);
-				editor.openFile(path);
+		openBtn.addActionListener(event -> { //This is a lambda. It takes the place of creating an arbitrary object
+			//path = JOptionPane.showInputDialog("URL:");
+			filePath = getFileOrDirectoryPath();
+			if(Files.exists(filePath)) { //verify the select file actually exists
+				editor.openFile(filePath.toString());
 				textArea.setText(editor.getTextString());
 				refresh();
 			}
@@ -146,6 +151,22 @@ public class EssayHelper extends JFrame {
 		panel.add(exitButton);
 		
 	}
+
+
+	/* getFileOrDirectoryPath
+	 * This function opens a new JFileChooser to set a path variable via a GUI file browser
+	 * @Return Path: a variable containing a file location e.g. C:/GodzillaFanFiction/Me_and_zilla.docx
+	 */
+	private Path getFileOrDirectoryPath() {
+		openFileBrowser = new JFileChooser();
+		openFileBrowser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		int result = openFileBrowser.showOpenDialog(this);
+
+		if(result == JFileChooser.CANCEL_OPTION)
+			System.exit(1);
+
+		return openFileBrowser.getSelectedFile().toPath(); //return file path
+	} //end getFileOrDirectoryPath
 	
 	private void userEditText() {
 		textArea.setEditable(true);
