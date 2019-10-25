@@ -259,7 +259,7 @@ public class Editor {
 			
 			if (isPunctuation(text.get(i))){
 				if (isEndOfSentence(i)){
-					if (wordCount > 5) {
+					if (wordCount > 20) {
 						suggestions.add("The following sentence may be a run-on sentence: " + sentence);
 					}
 					wordCount = 0;
