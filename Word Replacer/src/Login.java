@@ -7,7 +7,7 @@ import javax.swing.*;
 public class Login extends JFrame {
 	
 	HashMap<String, Integer> usernameAttemptMap;
-	JFrame frame;
+	JLabel titleLbl;
 	JPanel panel;
 	JTextField userField;
 	JLabel userLabel;
@@ -22,7 +22,7 @@ public class Login extends JFrame {
 	
 	boolean validLogin;
 	
-	final int WINDOW_WIDTH = 450;
+	final int WINDOW_WIDTH = 410;
 	final int WINDOW_HEIGHT = 300;
 	
 	Login(){
@@ -38,7 +38,13 @@ public class Login extends JFrame {
 		setTitle("User Login");
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		// TITLE LABEL
+		titleLbl = new JLabel("User Login");
+		titleLbl.setBounds(150, 15, 150, 30);
+		titleLbl.setFont(titleLbl.getFont().deriveFont(18f));
+		panel.add(titleLbl);
 		
 		// USERNAME FIELD
 		userField = new JTextField("Enter username");
@@ -63,20 +69,22 @@ public class Login extends JFrame {
 		
 		// REGISTER BUTTON
 		registerBtn = new JButton("Register");	
-		registerBtn.setBounds(225, 215, 90, 40);
+		registerBtn.setBounds(185, 200, 90, 40);
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				// REGISTER WINDOW OPEN
+				Register register = new Register();
+				register.setVisible(true);
 			}
 		});
 		panel.add(registerBtn);
 		
 		// LOGIN BUTTON
 		loginBtn = new JButton("Login");
-		loginBtn.setBounds(330, 215, 80, 40);
+		loginBtn.setBounds(290, 200, 80, 40);
 		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				validLogin = false;
+				validLogin = true;			// ************** SET TO FALSE WHEN DATABASE CONNECTION FINISHED *********
 				
 				// attempt to log in
 				String username = userField.getText();
@@ -87,7 +95,9 @@ public class Login extends JFrame {
 				// For testing:
 				//validLogin = true;
 				if (validLogin) {
-					System.exit(0);
+					EssayHelper eh = new EssayHelper();
+					eh.setVisible(true);
+					Login.this.dispose();
 				}
 			}
 		});

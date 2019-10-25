@@ -20,9 +20,14 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		EssayHelper essayHelper = new EssayHelper();
-		essayHelper.setVisible(true);
-
+		Login login = new Login();
+		login.setVisible(true);
+		
+		/* 
+		 * Ryan's hello.txt path
+		 * C:\Users\Ryan\git\EssayEditor\Word Replacer\src
+		 *
+		 */
 	}
 
 }

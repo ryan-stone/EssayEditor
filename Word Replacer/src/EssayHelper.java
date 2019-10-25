@@ -13,8 +13,6 @@ import java.nio.file.Path;
 public class EssayHelper extends JFrame {
 	Editor editor;
 
-	JFrame frame;
-
 	JTextArea textArea; JTextArea suggestionLbl;
 
 	JLabel numSentencesLbl; JLabel numWordsLbl;
@@ -32,7 +30,6 @@ public class EssayHelper extends JFrame {
 	
 	public EssayHelper(){
 		editor = new Editor();
-		
 		initUI();
 	}
 	
@@ -162,9 +159,12 @@ public class EssayHelper extends JFrame {
 		openFileBrowser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		int result = openFileBrowser.showOpenDialog(this);
 
+		/*
 		if(result == JFileChooser.CANCEL_OPTION)
-			System.exit(1);
-
+			//System.exit(1); **************** I changed this because pressing cancel
+							 // ************** was closing the whole application.
+		*/
+		
 		return openFileBrowser.getSelectedFile().toPath(); //return file path
 	} //end getFileOrDirectoryPath
 	

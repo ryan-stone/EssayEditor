@@ -4,7 +4,7 @@ public class JDBCTest {
     public static void main(String[] args) {
         Scanner read = new Scanner(System.in);
         JDBC test = new JDBC();
-        final int NUMBER_OF_ATTENMPTS = 3;
+        final int NUMBER_OF_ATTEMPTS = 3;
         String userName, password;
 
         System.out.println("Enter username");
@@ -17,7 +17,7 @@ public class JDBCTest {
             password = read.next();
 
             outer:
-            for (int i = 0; i < NUMBER_OF_ATTENMPTS; i++) {
+            for (int i = 0; i < NUMBER_OF_ATTEMPTS; i++) {
                 if (test.queryPassword(password)) {
                     System.out.println("Password is correct! Access granted");
                     break outer;
