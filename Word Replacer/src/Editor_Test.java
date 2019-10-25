@@ -25,6 +25,9 @@ public class Editor_Test {
 		editor.populateCommonWordFromFile();
 		System.out.println(editor.checkCommonWord("garbage"));
 		
+		for (int i = 0; i < editor.suggestions.size(); i++) {
+			System.out.println(editor.suggestions.get(i));
+		}
 		
 	}
 

@@ -19,8 +19,6 @@ public class JDBC {
         password = "eraser";
         conn = null;
         rs = null;
-
-
     }
 
     void queryAll() {

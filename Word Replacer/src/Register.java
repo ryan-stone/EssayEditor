@@ -101,6 +101,8 @@ public class Register extends JFrame {
 					// ************** TEST VARIABLE NEXT LINE, REPLACE WITH DATABASE QUERY ********
 					boolean usernameIsTaken = false;
 					
+					
+					
 					if (!usernameIsTaken) {
 						usernameTakenLbl.setVisible(false);
 						

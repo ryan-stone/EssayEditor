@@ -118,7 +118,7 @@ public class Editor {
 	
 	// Checks if a string is a sentence ending punctuation mark
 	private boolean isPunctuation(String c) {
-		if (c == "." || c == "!" || c == "?") 
+		if (c == "." || c == "!" || c == "?" || c == "," || c == ":") 
 			return true;
 		return false;
 	}
@@ -130,7 +130,9 @@ public class Editor {
 		for (int i = 0; i < text.size(); i++) {
 			String word = text.get(i);
 			if (word.equals(".") || word.equals("!") || word.equals("?")) {
-				numSentences++;
+				if (isEndOfSentence(i)) {
+					numSentences++;
+				}
 			}
 			else numWords++;
 		}
@@ -156,6 +158,7 @@ public class Editor {
 	public void refresh() {
 		parseText();
 		parseWordOccurrences();
+		populateSuggestions();
 	}
 	
 	public int getNumWords() {
@@ -234,11 +237,62 @@ public class Editor {
 		suggestions.clear();
 		populateSuggestionMostUsedWords();
 		populateWordsToAvoid();
+		populateLongSentences();
 		
 	}
 	
 	private void populateWordsToAvoid(){
 		
+	}
+	
+	private void populateLongSentences() {
+		
+		System.out.println("---------------------------------------");
+		
+		String sentence = "";
+		int wordCount = 0;
+		
+		
+		for ( int i = 0; i < text.size(); i++) {
+			
+			sentence += text.get(i);
+			
+			if (isPunctuation(text.get(i))){
+				if (isEndOfSentence(i)){
+					if (wordCount > 5) {
+						suggestions.add("The following sentence may be a run-on sentence: " + sentence);
+					}
+					wordCount = 0;
+					sentence = "";
+				}
+				sentence += " ";
+			}
+			else if (!isPunctuation(text.get(i))){
+				wordCount++;
+				sentence += " ";
+			}
+		}
+	}
+	
+	private boolean isEndOfSentence(int position) {
+		if (position >= text.size()-1) {
+			return true;
+		}
+		else {
+			if (text.get(position-1).equals(".") || text.get(position+1).equals(".")) {
+				return false;
+			}
+			else if (text.get(position-1).equals("Mr") || text.get(position-1).equals("Dr") || 
+					text.get(position-1).equals("Jr") || text.get(position-1).equals("Sr") || 
+					text.get(position-1).equals("Ms") || text.get(position-1).equals("Mrs")) {
+				return false;
+			}
+			else if (text.get(position).equals(",") || text.get(position).equals(":")) {
+				return false;
+			}
+			else return true;
+			
+		}
 	}
 	
 	private void populateSuggestionMostUsedWords() {

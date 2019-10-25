@@ -18,6 +18,8 @@ public class Login extends JFrame {
 	JLabel invalidUserLbl;
 	JLabel invalidPassLbl;
 	
+	JDBC database;
+	
 	int attempts = 0;
 	
 	boolean validLogin;
@@ -90,11 +92,36 @@ public class Login extends JFrame {
 				String username = userField.getText();
 				String password = passField.getText();
 				
+				database = new JDBC();
+				
+				if (database.queryUser(username)) {
+					// username already exists
+					// check password
+					if (database.queryPassword(password)) {
+						validLogin = true;
+					}
+					else {
+						invalidPassLbl.setVisible(true);
+						attempts++;
+						invalidPassLbl.setText("Invalid password. " + (5-attempts) + " attempts left.");
+					}
+				}
+				else {
+					// username doesn't exist
+					// display invalid username
+					invalidUserLbl.setVisible(true);
+				}
+				
 				// connect to database and compare both fields
+				/*
+				*
+				*
+				*/
 				
 				// For testing:
 				//validLogin = true;
 				if (validLogin) {
+					refreshErrorMessages();
 					EssayHelper eh = new EssayHelper();
 					eh.setVisible(true);
 					Login.this.dispose();
@@ -124,6 +151,11 @@ public class Login extends JFrame {
 		return false; //  
 	}
 	
+	public void refreshErrorMessages() {
+		invalidUserLbl.setVisible(false);
+		invalidPassLbl.setVisible(false);
+		attempts = 0;
+	}
 
 	
 	
