@@ -5,35 +5,44 @@
  *
  * and set it up in your Eclipse project manually.
  */
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
-public class JDBC {
-    String url, user, password, sql;
-    Connection conn;
-    ResultSet rs;
+class JDBC {
+    private String serverURL, serverUser, serverPassword, sql;
+    private Connection conn;
+    private ResultSet userName;
 
 
     JDBC() {
-        url = "jdbc:mysql://localhost:3306/setest";
-        user = "root";
-        password = "eraser";
-        conn = null;
-        rs = null;
+        //filestream objects have a hard time reading .properties files. Class loaders are more reliable
+        try (InputStream is = JDBC.class.getResourceAsStream("db.properties")) {
+            Properties prop = new Properties();
+            prop.load(is);
+            serverURL      = prop.getProperty("url");
+            serverUser     = prop.getProperty("user");
+            serverPassword = prop.getProperty("password");
+            conn     = null;
+            userName = null;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     void queryAll() {
         try {
-            sql = "SELECT username, pass " +
-                    "FROM users, password " +
-                    "WHERE users.user_id = password.user_id";
-            conn = DriverManager.getConnection(url, user, password);
+            sql = "SELECT username, password " +
+                    "FROM USER_INFO ";
+            conn = DriverManager.getConnection(serverURL, serverUser, serverPassword);
 
             Statement stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
+            userName = stmt.executeQuery(sql);
 
-            while(rs.next()) {
-                System.out.println(rs.getString("username") + "\t"
-                                 + rs.getString("pass"));
+            while(userName.next()) {
+                System.out.println(userName.getString("username") + "\t"
+                                 + userName.getString("password"));
             }
         } catch(SQLException e) {
             System.out.println(e.getMessage());
@@ -48,13 +57,13 @@ public class JDBC {
 
     }
 
-    boolean queryUser(String userName) {
+    boolean validateUser(String userName) {
         boolean userFlag = false;
         try {
             sql = "SELECT username " +
-                    "FROM users " +
+                    "FROM USER_INFO " +
                     "WHERE username = '" + userName + "'";
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(serverURL, serverUser, serverPassword);
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -79,20 +88,22 @@ public class JDBC {
         return userFlag;
     }
 
-    boolean queryPassword(String userPass) {
+    boolean validatePassword(String userPass, String userName) {
         boolean userFlag = false;
         try {
-            sql = "SELECT pass " +
-                    "FROM password " +
-                    "WHERE pass = '" + userPass + "'";
-            conn = DriverManager.getConnection(url, user, password);
+            sql = "SELECT password " +
+                    "FROM USER_INFO " +
+                    "WHERE password = '" + userPass + "' " +
+                    "AND username = '" + userName + "'";
+
+            conn = DriverManager.getConnection(serverURL, serverUser, serverPassword);
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                if (rs.getString("pass").equals(userPass)) {
-                    System.out.println(rs.getString("pass") + "\t");
+                if (rs.getString("password").equals(userPass)) {
+                    System.out.println(rs.getString("password") + "\t");
                     userFlag = true;
                 }
             }
@@ -110,30 +121,22 @@ public class JDBC {
         return userFlag;
     }
 
-    void registerUser(int userId, String userName, String userPass) {
-        sql = "INSERT INTO users " +
+    void registerUser(String userName, String userPass) {
+        sql = "INSERT INTO USER_INFO " +
                 "VALUES(?,?)";
-        insert(userId, userName, sql);
-        sql = "INSERT INTO password " +
-                "VALUES(?,?)";
-        insert(userId, userPass, sql);
-    }
-
-
-    private int insert(int id, String field, String localSql) {
         int statementId = 0;
 
         try {
-            conn = DriverManager.getConnection(url, user, password);
-            PreparedStatement pstmt = conn.prepareStatement(localSql, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, id);
-            pstmt.setString(2, field);
+            conn = DriverManager.getConnection(serverURL, serverUser, serverPassword);
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, userName);
+            pstmt.setString(2, userPass);
 
             int rowAffected = pstmt.executeUpdate();
             if (rowAffected == 1) {
-                rs = pstmt.getGeneratedKeys();
-                if (rs.next())
-                    statementId = rs.getInt(1);
+                this.userName = pstmt.getGeneratedKeys();
+                if (this.userName.next())
+                    statementId = this.userName.getInt(1);
             }
             //processing here
         } catch (SQLException e) {
@@ -146,6 +149,5 @@ public class JDBC {
                 System.out.println(ex.getMessage());
             }
         }
-        return statementId;
     }
 }

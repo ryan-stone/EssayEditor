@@ -10,7 +10,7 @@ public class JDBC_Register_Test {
         System.out.println("Enter new password");
         String userPass = read.next();
 
-        test.registerUser(2, userName, userPass);
+        test.registerUser( userName, userPass);
         test.queryAll();
     }
 }

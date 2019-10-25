@@ -5,26 +5,24 @@ public class JDBCTest {
         Scanner read = new Scanner(System.in);
         JDBC test = new JDBC();
         final int NUMBER_OF_ATTEMPTS = 3;
-        String userName, password;
+        String userName, userPass;
 
         System.out.println("Enter username");
         userName = read.next();
 
 
-        if(test.queryUser(userName)) {
+        if(test.validateUser(userName)) {
             System.out.println("User exists in database");
             System.out.println("Enter password");
-            password = read.next();
+            userPass = read.next();
 
-            outer:
             for (int i = 0; i < NUMBER_OF_ATTEMPTS; i++) {
-                if (test.queryPassword(password)) {
+                if (test.validatePassword(userPass, userName)) {
                     System.out.println("Password is correct! Access granted");
-                    break outer;
-                }
-                else {
+                    break;
+                } else {
                     System.out.println("Incorrect password");
-                    password = read.next();
+                    userPass = read.next();
                 }
             }
         }
