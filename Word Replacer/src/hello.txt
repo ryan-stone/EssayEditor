@@ -1,19 +1,7 @@
-Hello World!
-My name is Ryan.
-This is a practice essay to be used for the Essay Helper program.
+Dr. Garcia,
 
-Here we will be displaying examples of sentences that
-need some help and this here is an example of a run-on sentence that
-will probably be detected by too many words and we will probably
-suggest that they need to add some commas or break up the sentence
-with some extra periods.
+Hello, my name is Mr. Sanchez and my wife, Mrs. Sanchez, and I are concerned about our son, Jr. Sanchez, who has been coming home with F's every week from your class. Can we have set up a parent teacher conference to talk about our failure of a son's grades? Thank you very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, much for taking the time to read this.
 
-Next we will look for words that are used way too often. For example,
-if we use the word "next" more than 5 percent of the time then the word
-will be flagged and a suggestion will pop up. Next next next next next. 
-Next next next next next next next next next next next next next next. 
-icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream
-icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream
-icecream icecream icecream icecream icecream icecream icecream icecream icecream icecream  
-is is  is is is is is is is is is is is is is is is is is is is is is is is is is is is is 
-is is is is is is is is is is is is is is is is is is is is is is 
+Regards,
+Mr. and Mrs. Sanchez
+867-5309

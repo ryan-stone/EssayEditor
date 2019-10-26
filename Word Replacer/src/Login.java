@@ -92,6 +92,7 @@ public class Login extends JFrame {
 				String username = userField.getText();
 				String password = passField.getText();
 				
+				/*
 				database = new JDBC();
 				
 				if (database.queryUser(username)) {
@@ -111,7 +112,7 @@ public class Login extends JFrame {
 					// display invalid username
 					invalidUserLbl.setVisible(true);
 				}
-				
+				*/
 				// connect to database and compare both fields
 				/*
 				*
